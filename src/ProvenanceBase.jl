@@ -7,7 +7,7 @@ Main extensions points are:
     packages with types that wish to provide provenance data about themselves.
 
   - `signature`: to be extended by "consumers" of provenance data, i.e.
-    packages wish capture, track, or analyse provenance data.
+    packages which capture, track, or analyse provenance data.
 
 For details about extending these please see their respective documentation
 strings.
@@ -124,7 +124,7 @@ has_provenance(p::Provenance) = p.data isa NamedTuple
 
 Compute a verifiable checksum for the given `object`, `timestamp`, and `data`.
 
-Extended by packages that bring in the required cryptographic libraries.  The
+Extended by packages that bring in the required cryptographic libraries. The
 extender of `signature` must define their own subtype of `AbstractSignature` to
 use in their method signature.
 
@@ -160,7 +160,7 @@ is_signed(::Provenance{NoSignature}) = false
 
 Check whether `provenance` was produced by `object`.
 
-To be extended by packages that provide the required cryptographic methods.  By
+To be extended by packages that provide the required cryptographic methods. By
 default this function will work on `Provenance{NoSignature}` data, and will
 always verify successfully.
 """
