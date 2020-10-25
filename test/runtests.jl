@@ -14,11 +14,11 @@ struct CustomSignature <: AbstractSignature
 end
 
 function ProvenanceBase.signature(::Type{CustomSignature}, object, timestamp, data)
-    return CustomSignature(string(object, timestamp, data))
+    return CustomSignature(string(object, timestamp, repr(data)))
 end
 
 function ProvenanceBase.verify(object, p::Provenance{CustomSignature})
-    return string(object, p.timestamp, p.data) == p.signature.str
+    return string(object, p.timestamp, repr(p.data)) == p.signature.str
 end
 
 ProvenanceBase.is_signed(::Provenance{CustomSignature}) = true
