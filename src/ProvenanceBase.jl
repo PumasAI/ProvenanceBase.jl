@@ -182,6 +182,12 @@ function flat!(out, nt::NamedTuple, root = ())
     return out
 end
 flat!(out, ::Nothing, root = ()) = out
+function flat!(out, v::AbstractVector, root)
+    for (nth, each) in enumerate(v)
+        flat!(out, each, (root..., nth))
+    end
+    return out
+end
 flat!(out, value, root) = (out[root] = value; out)
 flat!(out, p::Provenance, root) = flat!(out, p.data, root)
 
