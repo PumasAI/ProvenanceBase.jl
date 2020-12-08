@@ -1,0 +1,62 @@
+image: "juliacomputing/juliapro:v1.5.2-1"
+
+variables:
+  JULIA_PKG_SERVER: pumas.juliateam.io
+  PRIVATE_REGISTRY_NAME: PumasRegistry
+  PRIVATE_REGISTRY_UUID: 2207cf11-c0bb-4826-96c6-61cddfb0e7e8
+  REMOVE_JULIAPRO: "true"
+  # GitLab requires that the cache path is inside the project.
+  JULIA_DEPOT_PATH: "$CI_PROJECT_DIR/.julia/"
+
+cache:
+  paths:
+    - .julia/compiled/
+
+build:
+  stage: build
+  script:
+    - julia -e 'using InteractiveUtils;
+                versioninfo()'
+    - julia --project -e 'using Pkg;
+                          Pkg.update();
+                          Pkg.instantiate();
+                          @time using ProvenanceBase;'
+    - julia --project -e '@time using ProvenanceBase'
+  interruptible: true
+  only:
+  - master
+  - tags
+  - external
+  - pushes
+
+.template: &template
+  stage: test
+  script:
+    - julia -e 'using InteractiveUtils;
+                versioninfo()'
+    - >
+      # if [ "$CI_COMMIT_BRANCH" == "master" ]; then
+      #   julia --depwarn=error --project -e 'using Pkg;
+      #     Pkg.test("ProvenanceBase"; coverage=true);'
+      #   julia -e 'using Pkg;
+      #     Pkg.add("Coverage");
+      #     using Coverage;
+      #     Codecov.submit_local(process_folder())'
+      # else
+        julia --depwarn=error --project -e 'using Pkg; Pkg.test("ProvenanceBase");'
+      # fi
+  interruptible: true
+  artifacts:
+    paths:
+      - Manifest.toml
+    expire_in: 90 days
+  only:
+  - master
+  - tags
+  - external
+  - pushes
+
+test-provenance-tracking:
+  <<: *template
+  variables:
+    GROUP: "Core"
