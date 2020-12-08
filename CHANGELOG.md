@@ -2,6 +2,8 @@
 
 ## `latest`
 
+## `0.2.0`
+
 ### Added
 
   - `flat` function for simplifying nested provenance data.
