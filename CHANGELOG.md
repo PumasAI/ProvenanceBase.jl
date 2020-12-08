@@ -2,6 +2,10 @@
 
 ## `latest`
 
+### Maintenance
+
+  - Fix TagBot config.
+
 ## `0.2.0`
 
 ### Added
