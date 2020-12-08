@@ -21,7 +21,7 @@ export provenance
 
 # consumers extend
 export Provenance, AbstractSignature
-export signature, verify, is_signed, has_provenance
+export signature, verify, is_signed, has_provenance, flat
 
 """
     provenance(object) -> NamedTuple
@@ -167,5 +167,22 @@ always verify successfully.
 function verify end
 
 verify(@nospecialize(object), ::Provenance{NoSignature}) = true
+
+"""
+    flat(p)
+
+Flatten out a potentially nested `Provenance` object `p` into a `Dict`.
+"""
+flat(p::Provenance) = flat!(Dict(), p.data)
+
+function flat!(out, nt::NamedTuple, root = ())
+    for (k, v) in zip(keys(nt), values(nt))
+        flat!(out, v, (root..., k))
+    end
+    return out
+end
+flat!(out, ::Nothing, root = ()) = out
+flat!(out, value, root) = (out[root] = value; out)
+flat!(out, p::Provenance, root) = flat!(out, p.data, root)
 
 end
