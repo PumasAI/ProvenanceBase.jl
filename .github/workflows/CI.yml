@@ -32,6 +32,6 @@ jobs:
           version: 1.7.2
           arch: x64
 
-      - uses: julia-actions/julia-buildpkg@252d4686a50ca4e21207e09c8ec7b2907867a4f5
+      - uses: julia-actions/julia-buildpkg@72ddd0fcdc760e6d2ef7ef2bbb11ae5032b671a8
 
       - uses: julia-actions/julia-runtest@v1
