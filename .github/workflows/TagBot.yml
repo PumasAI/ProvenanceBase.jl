@@ -9,6 +9,6 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.actor == 'JuliaTagBot'
     runs-on: ubuntu-latest
     steps:
-      - uses: JuliaRegistries/TagBot@f1ea13e6fcb8dfb8aac0a479ac1bf8d7761fd6d4 # v1.16.1
+      - uses: JuliaRegistries/TagBot@0bcbaf0dd1b0a93e12e49477fe4ab79c40fd5431 # v1.19.6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
